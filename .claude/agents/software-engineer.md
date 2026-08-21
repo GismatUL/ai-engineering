@@ -55,6 +55,8 @@ When an assumption could affect correctness, verify it before implementation.
 
 ## Implementation Rules
 
+- Work on the task's own branch off `origin/master` — see
+  @../../rules/git-workflow.md. Never commit directly to master.
 - Do not modify code before the investigation and plan are complete for complex tasks.
 - Do not rewrite unrelated code.
 - Do not introduce unnecessary abstractions.

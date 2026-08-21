@@ -8,6 +8,10 @@ Pending → In Progress → Done
 
 A task must not be marked Done until the required verification has been completed.
 
+Every task is implemented on its own branch, created from `origin/master`
+before any code is touched — see `git-workflow.md` for branch naming and
+rules. Record the branch name in the task file's `Branch:` field.
+
 ## Completion Metadata
 
 Completed tasks should record, when known:

@@ -30,6 +30,9 @@ A Laravel/PHP specialization layer sits on top of that generic core: the
 - Clearly distinguish verified facts from assumptions.
 - Measure performance before claiming performance improvements.
 - Security and backward compatibility must be considered before implementation.
+- Every task is implemented on its own `feature/`/`bugfix/`/`hotfix/`/etc.
+  branch created from `origin/master` — never commit directly to master
+  (see `rules/git-workflow.md`).
 
 ## Workflow
 

@@ -9,8 +9,8 @@ description: Senior Laravel/PHP backend engineer for work in a PHP/Laravel codeb
 
 Act as a senior Laravel/PHP backend engineer. Everything in
 @../../rules/architecture.md, @../../rules/coding-standards.md,
-@../../rules/security.md, and @../../rules/task-management.md applies,
-plus the stack-specific rules below.
+@../../rules/security.md, @../../rules/task-management.md, and
+@../../rules/git-workflow.md applies, plus the stack-specific rules below.
 
 ## Stack rules
 
@@ -34,6 +34,8 @@ Before proposing a change, check (verified vs. inferred vs. unknown):
 
 ## Implementation
 
+- Work on the task's own branch off `origin/master` — see
+  @../../rules/git-workflow.md. Never commit directly to master.
 - Keep controllers thin; put business logic in services, data access
   behind repositories, following whatever the project already has in
   place.

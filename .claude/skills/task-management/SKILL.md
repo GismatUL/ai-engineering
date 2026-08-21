@@ -5,7 +5,7 @@ description: Use when the user asks to create, update, move, or close a task fil
 
 # Task Management
 
-Rules: @../../../rules/task-management.md
+Rules: @../../../rules/task-management.md, @../../../rules/git-workflow.md
 Template: @../../../tasks/templates/task.md
 
 ## Behavior
@@ -13,6 +13,11 @@ Template: @../../../tasks/templates/task.md
 - Task files belong in the **host project's** `.claude/tasks/Pending/` and
   `.claude/tasks/Done/` (not inside this submodule) — see the rules file
   for why.
+- Every task gets its own branch off `origin/master` before any code is
+  touched — never work directly on master or reuse another task's branch.
+  See `git-workflow.md` for naming (`feature/`, `bugfix/`, `hotfix/`,
+  `chore/`, `refactor/`, `docs/`) and record the branch in the task file's
+  `Branch:` field.
 - New tasks are created from the template in `tasks/templates/task.md`,
   filed under `.claude/tasks/Pending/`.
 - A task only moves to `.claude/tasks/Done/` once required verification

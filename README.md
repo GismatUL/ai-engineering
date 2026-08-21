@@ -53,7 +53,7 @@ prompt.
 - **`rules/`** — two layers, both single sources of truth referenced via
   `@` imports rather than restated:
   - generic: `architecture.md`, `coding-standards.md`, `security.md`,
-    `task-management.md`
+    `task-management.md`, `git-workflow.md`
   - Laravel/PHP: `laravel.md`, `database.md`, `testing.md`, `devops.md`
 - **`workflows/software-change.md`** — the 8-phase process definition.
 - **`.claude/agents/software-engineer.md`** — a subagent with the judgment
@@ -142,6 +142,15 @@ Trivial changes (typos, single-line fixes, something already fully
 specified) skip straight to implementation — the discipline is for changes
 where guessing wrong is costly.
 
+## Git workflow
+
+Every task gets its own branch, created from `origin/master`, named
+`<type>/<slug>` — `feature/`, `bugfix/`, `hotfix/`, `chore/`, `refactor/`,
+or `docs/`. `/ai-engineering:new-task` creates the branch (`git fetch
+origin` + `git checkout -b <type>/<slug> origin/master`) as part of
+scaffolding the task file, and records it in the task's `Branch:` field.
+Nothing is ever committed directly to master. See `rules/git-workflow.md`.
+
 ## Example
 
 ```
@@ -173,7 +182,8 @@ install.sh / install.ps1    project native assets into a host project
   skills/{software-change,project-bootstrap,task-management,
           laravel-api,database-optimization,laravel-testing}/SKILL.md
   commands/ai-engineering/{investigate,plan-change,new-task,close-task}.md
-rules/                       architecture, coding-standards, security, task-management
+rules/                       architecture, coding-standards, security,
+                              task-management, git-workflow
                               laravel, database, testing, devops
 workflows/software-change.md the 8-phase process
 prompts/project-bootstrap.md raw prompt the project-bootstrap skill runs

@@ -7,7 +7,8 @@ description: Use for any non-trivial code change request in the host project —
 
 Full phase definitions: @../../../workflows/software-change.md
 Supporting rules: @../../../rules/architecture.md,
-@../../../rules/coding-standards.md, @../../../rules/security.md
+@../../../rules/coding-standards.md, @../../../rules/security.md,
+@../../../rules/git-workflow.md
 
 ## How to run this skill
 
@@ -24,8 +25,10 @@ Supporting rules: @../../../rules/architecture.md,
 4. **Validate architecture** — check the plan against existing architecture,
    database constraints, existing services/abstractions, side effects and
    events. Reject or revise unsafe assumptions.
-5. **Implement** — only after validation. Keep changes focused, follow
-   project conventions, do not introduce unnecessary architecture.
+5. **Implement** — only after validation, and only on the task's own
+   branch off `origin/master` (see `git-workflow.md` — create it first if
+   the `task-management` skill hasn't already). Keep changes focused,
+   follow project conventions, do not introduce unnecessary architecture.
 6. **Test** — run relevant tests, add missing tests where appropriate, test
    edge cases and backward compatibility.
 7. **Review** — check correctness, security, performance, maintainability,

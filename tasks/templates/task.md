@@ -1,5 +1,7 @@
 # Task: {{TASK_NAME}}
 
+Branch: {{BRANCH_NAME}}
+
 ## Objective
 
 ## Context
