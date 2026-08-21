@@ -1,0 +1,12 @@
+# IDE
+.idea/
+.vscode/
+
+# Claude Code local-only files (see README.md — meant to stay untracked)
+.claude/settings.local.json
+CLAUDE.local.md
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

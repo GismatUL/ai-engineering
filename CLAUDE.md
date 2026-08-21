@@ -5,6 +5,18 @@
 This repository contains reusable AI engineering workflows, agents, skills,
 rules, and task templates for software development projects.
 
+It self-hosts its own Claude Code native assets under `.claude/agents`,
+`.claude/skills`, and `.claude/commands` — open this repo in Claude Code
+and the `software-engineer` agent, the `software-change` / `project-bootstrap`
+/ `task-management` skills, and the `/ai-engineering:*` commands are
+available with no setup. See [README.md](README.md) for how to add this
+repo as a submodule to another project so it works there too.
+
+A Laravel/PHP specialization layer sits on top of that generic core: the
+`laravel-engineer` agent and the `laravel-api` / `database-optimization` /
+`laravel-testing` skills, backed by `rules/laravel.md`, `rules/database.md`,
+`rules/testing.md`, and `rules/devops.md`.
+
 ## Core Principles
 
 - Understand the existing project before modifying code.
