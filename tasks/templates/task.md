@@ -23,7 +23,21 @@ Branch: {{BRANCH_NAME}}
 - Tests:
 - Static analysis:
 - Lint:
-- Performance measurement:
+
+## Measurements
+
+Required only if this task makes a measurable performance/behavior claim
+(see rules/measurement.md). Otherwise write "Not applicable" below.
+
+- Metric:
+- Method:
+- Environment:
+- Baseline:
+- Change:
+- After:
+- Comparison:
+- Classification:
+- Conclusion:
 
 ## Completion
 

@@ -70,13 +70,12 @@ When an assumption could affect correctness, verify it before implementation.
 Before optimizing:
 
 1. Identify the actual bottleneck.
-2. Measure where possible.
-3. Determine the root cause.
-4. Compare alternative solutions.
-5. Choose the simplest solution that solves the problem.
-6. Verify the improvement after implementation.
+2. Determine the root cause.
+3. Compare alternative solutions.
+4. Choose the simplest solution that solves the problem.
 
-Never claim a performance improvement without evidence.
+Follow @../../rules/measurement.md for how to measure, classify, and report
+any before/after claim — including when a measurement can't be performed.
 
 ## Security
 

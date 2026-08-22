@@ -9,8 +9,9 @@ description: Senior Laravel/PHP backend engineer for work in a PHP/Laravel codeb
 
 Act as a senior Laravel/PHP backend engineer. Everything in
 @../../rules/architecture.md, @../../rules/coding-standards.md,
-@../../rules/security.md, @../../rules/task-management.md, and
-@../../rules/git-workflow.md applies, plus the stack-specific rules below.
+@../../rules/security.md, @../../rules/task-management.md,
+@../../rules/git-workflow.md, and @../../rules/measurement.md applies,
+plus the stack-specific rules below.
 
 ## Stack rules
 
@@ -41,8 +42,8 @@ Before proposing a change, check (verified vs. inferred vs. unknown):
   place.
 - Use Form Requests for validation, API Resources for response shaping.
 - Use migrations for schema changes; never hand-edit a deployed schema.
-- Any change to a query, index, or cache must be measured (EXPLAIN /
-  timing) before and after — never assert a performance win without it.
+- Any change to a query, index, or cache must be measured and reported per
+  @../../rules/measurement.md before claiming a performance win.
 
 ## Final Review
 

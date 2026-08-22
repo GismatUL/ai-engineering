@@ -28,7 +28,8 @@ A Laravel/PHP specialization layer sits on top of that generic core: the
 - Do not introduce unnecessary dependencies or infrastructure.
 - Do not make assumptions about unknown infrastructure or database state.
 - Clearly distinguish verified facts from assumptions.
-- Measure performance before claiming performance improvements.
+- Measure performance before claiming performance improvements (see
+  `rules/measurement.md`).
 - Security and backward compatibility must be considered before implementation.
 - Every task is implemented on its own `feature/`/`bugfix/`/`hotfix/`/etc.
   branch created from `origin/master` — never commit directly to master

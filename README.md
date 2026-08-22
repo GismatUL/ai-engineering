@@ -53,7 +53,7 @@ prompt.
 - **`rules/`** — two layers, both single sources of truth referenced via
   `@` imports rather than restated:
   - generic: `architecture.md`, `coding-standards.md`, `security.md`,
-    `task-management.md`, `git-workflow.md`
+    `task-management.md`, `git-workflow.md`, `measurement.md`
   - Laravel/PHP: `laravel.md`, `database.md`, `testing.md`, `devops.md`
 - **`workflows/software-change.md`** — the 8-phase process definition.
 - **`.claude/agents/software-engineer.md`** — a subagent with the judgment
@@ -183,7 +183,7 @@ install.sh / install.ps1    project native assets into a host project
           laravel-api,database-optimization,laravel-testing}/SKILL.md
   commands/ai-engineering/{investigate,plan-change,new-task,close-task}.md
 rules/                       architecture, coding-standards, security,
-                              task-management, git-workflow
+                              task-management, git-workflow, measurement
                               laravel, database, testing, devops
 workflows/software-change.md the 8-phase process
 prompts/project-bootstrap.md raw prompt the project-bootstrap skill runs
