@@ -72,6 +72,7 @@ function Install-Tree {
 Install-Tree -SrcRoot (Join-Path $SubmoduleDir ".claude\agents") -DestRoot (Join-Path $HostRoot ".claude\agents")
 Install-Tree -SrcRoot (Join-Path $SubmoduleDir ".claude\skills") -DestRoot (Join-Path $HostRoot ".claude\skills")
 Install-Tree -SrcRoot (Join-Path $SubmoduleDir ".claude\commands") -DestRoot (Join-Path $HostRoot ".claude\commands")
+Install-Tree -SrcRoot (Join-Path $SubmoduleDir ".claude\hooks") -DestRoot (Join-Path $HostRoot ".claude\hooks")
 
 $ClaudeDir = Join-Path $HostRoot ".claude"
 if (-not (Test-Path $ClaudeDir)) { New-Item -ItemType Directory -Force -Path $ClaudeDir | Out-Null }
@@ -152,4 +153,5 @@ if ($Local) {
     Write-Host "Note: if you added this as a real submodule (git submodule add), .gitmodules and the gitlink are already staged - -Local can't undo that. Use a plain clone for a fully invisible install."
 }
 
+Write-Host "For away mode, merge $RelSubmoduleUnix/settings/away-mode.json into .claude\settings.local.json (not done automatically)."
 Write-Host "Done. Re-running this script will refresh the installed files with the submodule's current version."

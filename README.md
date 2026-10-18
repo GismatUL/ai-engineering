@@ -33,7 +33,8 @@ prompt.
  │   └── laravel-engineer.md       (PHP/Laravel specialist)
  ├── skills/               │  WHEN: auto-triggered by request shape
  │   ├── software-change/SKILL.md          ┐ generic
- │   ├── project-bootstrap/SKILL.md        ┤ core
+ │   ├── project-build/SKILL.md            ┤ core
+ │   ├── project-bootstrap/SKILL.md        ┤
  │   ├── task-management/SKILL.md          ┘
  │   ├── laravel-api/SKILL.md              ┐ Laravel
  │   ├── database-optimization/SKILL.md    ┤ specialization
@@ -42,34 +43,46 @@ prompt.
      └── ai-engineering/
          ├── investigate.md
          ├── plan-change.md
+         ├── requirements.md
+         ├── away.md
          ├── new-task.md
          └── close-task.md
                          │
                          ▼
- rules/  workflows/  tasks/templates/   ← shared knowledge, referenced via
-                                            @-imports, not duplicated
+ rules/  workflows/  templates/  tasks/templates/   ← shared knowledge, referenced
+                                                        via @-imports, not duplicated
 ```
 
 - **`rules/`** — two layers, both single sources of truth referenced via
   `@` imports rather than restated:
   - generic: `architecture.md`, `coding-standards.md`, `security.md`,
-    `task-management.md`, `git-workflow.md`, `measurement.md`
+    `task-management.md`, `git-workflow.md`, `measurement.md`,
+    `logging-and-monitoring.md`, `integrations.md`, `documentation.md`,
+    `autonomous-mode.md`
   - Laravel/PHP: `laravel.md`, `database.md`, `testing.md`, `devops.md`
-- **`workflows/software-change.md`** — the 8-phase process definition.
+- **`workflows/software-change.md`** — the 8-phase process definition for
+  changing existing code.
+- **`workflows/project-build.md`** — the process for building an
+  application from a brief, design, and owner instructions: intake,
+  requirements checklist, decision log, end-to-end build, verification
+  (including a two-user authorization check), documentation, report.
+  `prompts/project-build.md` is a fill-in kickoff prompt for it, and
+  `templates/` holds the requirements checklist and implementation report.
 - **`.claude/agents/software-engineer.md`** — a subagent with the judgment
   to run that process end to end, for any stack.
 - **`.claude/agents/laravel-engineer.md`** — the same discipline specialized
   for a PHP/Laravel backend: Eloquent/query optimization, Sanctum/OAuth2/JWT
   auth, queues/events/Horizon, Nova, and the Docker/CI/CD/AWS around it.
 - **`.claude/skills/`** — auto-triggered wrappers: generic workflow
-  (`software-change`), first-time-in-this-project brief
+  (`software-change`), building from a brief (`project-build`),
+  first-time-in-this-project brief
   (`project-bootstrap`), task file lifecycle (`task-management`); plus
   Laravel-specific ones for REST API design (`laravel-api`), measured query
   optimization (`database-optimization`), and Pest/PHPUnit + PHPStan/Psalm
   verification (`laravel-testing`).
 - **`.claude/commands/ai-engineering/`** — explicit, narrower entry points
   (`/ai-engineering:investigate`, `/ai-engineering:plan-change`,
-  `/ai-engineering:new-task`, `/ai-engineering:close-task`) for when you
+  `/ai-engineering:requirements`, `/ai-engineering:new-task`, `/ai-engineering:close-task`) for when you
   want one phase on demand instead of the full skill.
 
 ## Quickstart
@@ -142,6 +155,38 @@ Trivial changes (typos, single-line fixes, something already fully
 specified) skip straight to implementation — the discipline is for changes
 where guessing wrong is costly.
 
+## Working while you're away
+
+`/ai-engineering:away` lets Claude work through the queued tasks
+unattended — no phase approvals, local commits on each task's branch,
+questions recorded as blockers in the task file instead of asked, and an
+away report at the end. The rules are in `rules/autonomous-mode.md`.
+
+A prompt alone doesn't keep a session running, so set up three things
+first:
+
+1. **Queue the work** as task files in `.claude/tasks/Pending/`
+   (`/ai-engineering:new-task`). Queuing a task approves implementing it.
+2. **Merge `settings/away-mode.json` into the host project's
+   `.claude/settings.local.json`.** It allows routine git/test/build
+   commands so the run doesn't stop on a permission prompt, denies
+   push/merge/destructive commands and `.env` access outright, and adds a
+   Stop hook (`.claude/hooks/away-stop.sh`, installed by `install.sh`)
+   that keeps the session working while unblocked tasks remain. On
+   Windows without Git Bash, point the hook at `away-stop.ps1` instead:
+   `powershell -NoProfile -ExecutionPolicy Bypass -File "$CLAUDE_PROJECT_DIR/.claude/hooks/away-stop.ps1"`.
+   Adjust the allow list to the project's own commands.
+3. **Keep the machine awake** (never sleep on AC power, lid close does
+   nothing), or run the session in the cloud.
+
+Then run `/ai-engineering:away 7 hours, checkout bug first`. Where the
+command isn't installed (a cloud or headless session),
+`prompts/autonomous-mode.md` is the paste-in equivalent.
+
+The hook only acts while `.claude/tasks/.away` exists, so it doesn't
+affect normal sessions, and it gives up after 30 forced continues so a
+stuck run can still end.
+
 ## Git workflow
 
 Every task gets its own branch, created from `origin/master`, named
@@ -179,14 +224,23 @@ VERSION
 install.sh / install.ps1    project native assets into a host project
 .claude/
   agents/software-engineer.md, laravel-engineer.md
-  skills/{software-change,project-bootstrap,task-management,
+  skills/{software-change,project-build,project-bootstrap,task-management,
           laravel-api,database-optimization,laravel-testing}/SKILL.md
-  commands/ai-engineering/{investigate,plan-change,new-task,close-task}.md
+  commands/ai-engineering/{investigate,plan-change,requirements,away,
+                           new-task,close-task}.md
+  hooks/away-stop.sh, away-stop.ps1   Stop hook for away mode
 rules/                       architecture, coding-standards, security,
-                              task-management, git-workflow, measurement
+                              task-management, git-workflow, measurement,
+                              logging-and-monitoring, integrations,
+                              documentation, autonomous-mode
                               laravel, database, testing, devops
-workflows/software-change.md the 8-phase process
+workflows/software-change.md the 8-phase process for changing code
+workflows/project-build.md   building an application from a brief
 prompts/project-bootstrap.md raw prompt the project-bootstrap skill runs
+prompts/project-build.md     fill-in kickoff prompt for a brief-driven build
+prompts/autonomous-mode.md   paste-in prompt for away mode
+templates/                   requirements checklist, implementation report
+settings/away-mode.json      permissions + Stop hook to merge for away mode
 tasks/templates/task.md      task file template
 tasks/{Pending,Done}/        this repo's own task instances (self-hosted use)
 ```

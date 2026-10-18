@@ -7,8 +7,8 @@ rules, and task templates for software development projects.
 
 It self-hosts its own Claude Code native assets under `.claude/agents`,
 `.claude/skills`, and `.claude/commands` — open this repo in Claude Code
-and the `software-engineer` agent, the `software-change` / `project-bootstrap`
-/ `task-management` skills, and the `/ai-engineering:*` commands are
+and the `software-engineer` agent, the `software-change` / `project-build` /
+`project-bootstrap` / `task-management` skills, and the `/ai-engineering:*` commands are
 available with no setup. See [README.md](README.md) for how to add this
 repo as a submodule to another project so it works there too.
 
@@ -31,6 +31,8 @@ A Laravel/PHP specialization layer sits on top of that generic core: the
 - Measure performance before claiming performance improvements (see
   `rules/measurement.md`).
 - Security and backward compatibility must be considered before implementation.
+- Never claim an external integration (email, payments, APIs) works without
+  testing it against a safe target (see `rules/integrations.md`).
 - Every task is implemented on its own `feature/`/`bugfix/`/`hotfix/`/etc.
   branch created from `origin/master` — never commit directly to master
   (see `rules/git-workflow.md`).
@@ -50,11 +52,22 @@ For non-trivial tasks:
 
 Do not skip investigation or validation for complex changes.
 
+To build an application from a brief and design rather than change
+existing code, use `workflows/project-build.md` (the `project-build`
+skill): requirements checklist, decision log, end-to-end verification,
+documentation, and an implementation report.
+
+When the user is away (`/ai-engineering:away`), follow
+`rules/autonomous-mode.md`: no phase approvals, blockers recorded in the
+task file instead of asked, never push/merge/deploy or run destructive
+commands, and an away report at the end.
+
 ## Coding Rules
 
 - Do not add unnecessary comments.
 - Do not rewrite unrelated code.
-- Do not commit without approval.
+- Do not commit without approval — except in away mode, which allows local
+  commits on the task's own branch (see `rules/autonomous-mode.md`).
 - Keep changes focused on the task.
 - Reuse existing project patterns where appropriate.
 - Avoid premature abstraction.

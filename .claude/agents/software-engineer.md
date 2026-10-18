@@ -80,6 +80,15 @@ any before/after claim — including when a measurement can't be performed.
 ## Security
 
 See @../../rules/security.md. Do not weaken existing security controls for convenience.
+For email, payments, webhooks, and other external services, follow
+@../../rules/integrations.md.
+
+## Building from a Brief
+
+When the task is to build an application or a large feature set from a
+brief and design rather than change existing behavior, follow
+@../../workflows/project-build.md (the `project-build` skill) and
+@../../rules/documentation.md.
 
 ## Final Review
 

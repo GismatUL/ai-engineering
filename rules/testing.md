@@ -12,5 +12,7 @@
 - Prefer feature/integration tests for HTTP endpoints and unit tests for
   isolated business logic (services, value objects); do not unit-test
   framework glue.
+- Run the suite on each PHP and database version the project claims to
+  support; list any that could not be tested as not verified.
 - A task is not verified until the tests were actually run this session —
   never report a pass that wasn't observed.

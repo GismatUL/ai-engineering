@@ -22,6 +22,8 @@
 - One task = one branch. If a task's scope grows into unrelated work,
   start a new task and a new branch rather than expanding the existing
   one.
+- In away mode (`autonomous-mode.md`), commit locally on the task branch
+  before switching to the next task; never push or merge unattended.
 - Creating or closing a task file does not merge, push, or delete the
   branch — merging/PR review is a separate, explicit step outside this
   workflow.

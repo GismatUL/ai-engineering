@@ -69,6 +69,7 @@ install_tree() {
 install_tree "$SUBMODULE_DIR/.claude/agents" "$HOST_ROOT/.claude/agents"
 install_tree "$SUBMODULE_DIR/.claude/skills" "$HOST_ROOT/.claude/skills"
 install_tree "$SUBMODULE_DIR/.claude/commands" "$HOST_ROOT/.claude/commands"
+install_tree "$SUBMODULE_DIR/.claude/hooks" "$HOST_ROOT/.claude/hooks"
 
 mkdir -p "$HOST_ROOT/.claude"
 MANIFEST_REL=".claude/.ai-engineering-installed"
@@ -137,4 +138,5 @@ if [[ "$LOCAL_MODE" == "true" ]]; then
        "invisible install."
 fi
 
+echo "For away mode, merge $REL_SUBMODULE/settings/away-mode.json into .claude/settings.local.json (not done automatically)."
 echo "Done. Re-running this script will refresh the installed files with the submodule's current version."

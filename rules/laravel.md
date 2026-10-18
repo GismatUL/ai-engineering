@@ -39,6 +39,18 @@
 - Keep AJAX calls going through the same API layer as other clients where
   one exists, rather than one-off endpoints.
 
+## Security-sensitive defaults
+
+- Livewire's file upload stores temporary uploads on disk in plaintext;
+  if files must be encrypted at rest, upload to your own endpoint that
+  encrypts on arrival and leave Livewire uploads disabled.
+- Alpine under a strict CSP needs Livewire's CSP-safe build, with Alpine
+  logic in registered components instead of inline expressions.
+- Check whether the installed Laravel version relaxes CSRF verification
+  (e.g. a same-origin shortcut) and whether that is acceptable.
+- Scope owner data in a query scope (e.g. `Model::ownedBy($user)`) and
+  mark Livewire properties holding ids `#[Locked]`.
+
 ## Coding
 
 - Follow PSR-12 and the project's existing formatter/linter config (Pint,

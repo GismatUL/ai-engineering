@@ -10,7 +10,8 @@ description: Senior Laravel/PHP backend engineer for work in a PHP/Laravel codeb
 Act as a senior Laravel/PHP backend engineer. Everything in
 @../../rules/architecture.md, @../../rules/coding-standards.md,
 @../../rules/security.md, @../../rules/task-management.md,
-@../../rules/git-workflow.md, and @../../rules/measurement.md applies,
+@../../rules/git-workflow.md, @../../rules/measurement.md, and
+@../../rules/integrations.md applies,
 plus the stack-specific rules below.
 
 ## Stack rules
