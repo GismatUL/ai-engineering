@@ -1,0 +1,71 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git status *)",
+      "Bash(git diff)",
+      "Bash(git diff *)",
+      "Bash(php artisan test)",
+      "Bash(git log *)",
+      "Bash(git fetch *)",
+      "Bash(git checkout -b *)",
+      "Bash(git switch *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(php artisan test *)",
+      "Bash(php vendor/bin/phpunit *)",
+      "Bash(vendor/bin/phpstan *)",
+      "Bash(vendor/bin/pint *)",
+      "Bash(composer install *)",
+      "Bash(composer dump-autoload *)",
+      "Bash(npm ci *)",
+      "Bash(npm run *)",
+      "Bash(corepack pnpm *)",
+      "Bash(pnpm *)",
+      "PowerShell(git status *)",
+      "PowerShell(git diff *)",
+      "PowerShell(git log *)",
+      "PowerShell(git add *)",
+      "PowerShell(git commit *)"
+    ],
+    "deny": [
+      "Bash(git push)",
+      "Bash(git push *)",
+      "Bash(git checkout master)",
+      "Bash(git switch master)",
+      "PowerShell(git push)",
+      "Bash(git merge *)",
+      "Bash(git rebase *)",
+      "Bash(git reset --hard *)",
+      "Bash(git clean *)",
+      "Bash(git branch -D *)",
+      "Bash(git checkout master *)",
+      "Bash(git switch master *)",
+      "Bash(rm -rf *)",
+      "Bash(php artisan migrate:fresh *)",
+      "Bash(php artisan migrate:reset *)",
+      "Bash(php artisan db:wipe *)",
+      "PowerShell(git push *)",
+      "PowerShell(git merge *)",
+      "PowerShell(git reset --hard *)",
+      "PowerShell(git clean *)",
+      "PowerShell(Remove-Item * -Recurse *)",
+      "Read(./.env)",
+      "Read(./**/.env)",
+      "Edit(./.env)",
+      "Edit(./**/.env)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/away-stop.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}

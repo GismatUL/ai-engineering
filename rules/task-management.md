@@ -8,6 +8,10 @@ Pending → In Progress → Done
 
 A task must not be marked Done until the required verification has been completed.
 
+A task that can't proceed without the user stays in `Pending/` with
+`Status: Blocked` and the open question under `## Blocked`. Away mode
+(`autonomous-mode.md`) skips blocked tasks.
+
 Every task is implemented on its own branch, created from `origin/master`
 before any code is touched — see `git-workflow.md` for branch naming and
 rules. Record the branch name in the task file's `Branch:` field.

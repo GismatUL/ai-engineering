@@ -41,11 +41,15 @@ Required only if this task makes a measurable performance/behavior claim
 
 ## Completion
 
-- Status:
+- Status: Pending | In Progress | Blocked | Done
 - Started:
 - Completed:
 - Active work:
 - Elapsed time:
+
+## Blocked
+
+Questions only the user can answer, what was tried, and the exact error.
 
 ## Notes
 
