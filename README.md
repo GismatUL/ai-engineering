@@ -7,6 +7,18 @@ written, plus a **Laravel/PHP specialization layer** on top for backend
 work — API design, query optimization, queues/events, auth, testing, and
 the DevOps around a Laravel app.
 
+It covers three kinds of work:
+
+- **Changing existing code** — the 8-phase `software-change` workflow.
+- **Building an application from a brief** — `project-build`: read the
+  developer brief and design in full, map every requirement in a
+  checklist, record decisions, build end to end, verify (including a
+  two-user authorization check), and deliver docs and an implementation
+  report.
+- **Working while you're away** — `/ai-engineering:away`: work through
+  the queued tasks unattended, kept running by a Stop hook and
+  pre-approved permissions, with blockers recorded instead of asked.
+
 Drop it into any project as a git submodule and Claude Code runs it there
 too. This repo also self-hosts the same assets at its own root, so cloning
 and opening it in Claude Code demonstrates it working with zero setup.
@@ -39,18 +51,23 @@ prompt.
  │   ├── laravel-api/SKILL.md              ┐ Laravel
  │   ├── database-optimization/SKILL.md    ┤ specialization
  │   └── laravel-testing/SKILL.md          ┘
- └── commands/             │  WHAT: explicit /slash-command entry points
-     └── ai-engineering/
-         ├── investigate.md
-         ├── plan-change.md
-         ├── requirements.md
-         ├── away.md
-         ├── new-task.md
-         └── close-task.md
+ ├── commands/             │  WHAT: explicit /slash-command entry points
+ │   └── ai-engineering/
+ │       ├── investigate.md
+ │       ├── plan-change.md
+ │       ├── requirements.md
+ │       ├── away.md
+ │       ├── new-task.md
+ │       └── close-task.md
+ └── hooks/                │  ENFORCED: run by Claude Code, not by the model
+     └── away-stop.sh / .ps1       (keeps an away-mode run going)
                          │
                          ▼
- rules/  workflows/  templates/  tasks/templates/   ← shared knowledge, referenced
-                                                        via @-imports, not duplicated
+ rules/  workflows/  prompts/  templates/  tasks/templates/
+        ← shared knowledge, referenced via @-imports, not duplicated
+
+ settings/away-mode.json  ← permissions + hook config you merge into a
+                            host project's .claude/settings.local.json
 ```
 
 - **`rules/`** — two layers, both single sources of truth referenced via
@@ -81,9 +98,16 @@ prompt.
   optimization (`database-optimization`), and Pest/PHPUnit + PHPStan/Psalm
   verification (`laravel-testing`).
 - **`.claude/commands/ai-engineering/`** — explicit, narrower entry points
-  (`/ai-engineering:investigate`, `/ai-engineering:plan-change`,
-  `/ai-engineering:requirements`, `/ai-engineering:new-task`, `/ai-engineering:close-task`) for when you
-  want one phase on demand instead of the full skill.
+  for when you want one phase on demand instead of the full skill:
+  - `/ai-engineering:investigate` — phases 1–2, findings only
+  - `/ai-engineering:plan-change` — phases 3–4, a validated plan
+  - `/ai-engineering:requirements` — read a brief and write
+    `docs/REQUIREMENTS.md`, no code
+  - `/ai-engineering:new-task` / `/ai-engineering:close-task` — task file
+    and branch lifecycle
+  - `/ai-engineering:away` — work the task queue unattended
+- **`.claude/hooks/away-stop.sh` / `.ps1`** — the Stop hook behind away
+  mode; see [Working while you're away](#working-while-youre-away).
 
 ## Quickstart
 
@@ -105,11 +129,15 @@ git submodule add <this-repo-url> ai-engineering
 ./ai-engineering/install.sh          # or .\ai-engineering\install.ps1 on Windows
 ```
 
-This copies `.claude/agents`, `.claude/skills`, and `.claude/commands` into
-the host project's `.claude/`, and appends `@ai-engineering/rules/*.md`
+This copies `.claude/agents`, `.claude/skills`, `.claude/commands`, and
+`.claude/hooks` into the host project's `.claude/`, and appends `@ai-engineering/rules/*.md`
 imports to the host's `CLAUDE.md` (idempotent — safe to re-run any time the
 submodule is updated). Pass `--symlink` / `-Symlink` instead of the default
 copy if you want upstream edits to apply without re-running install.
+
+The install never edits the host's settings files. To use away mode, merge
+`ai-engineering/settings/away-mode.json` into `.claude/settings.local.json`
+yourself (see below).
 
 ### Keep it out of the host repo's git history (client/company projects)
 
@@ -125,7 +153,7 @@ git clone <this-repo-url> ai-engineering   # a plain clone, not `git submodule a
 This writes the rules imports to `CLAUDE.local.md` instead of `CLAUDE.md`
 (Claude Code auto-loads it; it's meant to be gitignored, and is never
 created or touched otherwise) and appends every path it installs —
-`CLAUDE.local.md`, the `.claude/agents|skills|commands` files, and the
+`CLAUDE.local.md`, the `.claude/agents|skills|commands|hooks` files, and the
 clone directory itself — to `.git/info/exclude`, a per-clone ignore file
 that lives only in your local `.git/` folder and is never committed or
 pushed. Re-running is idempotent; nothing shows up in `git status`.
@@ -134,7 +162,7 @@ This only works cleanly with a **plain `git clone`**, not `git submodule
 add` — that command stages `.gitmodules` and a gitlink the moment you run
 it, before install.sh ever touches anything, and `--local` can't undo that.
 
-## The workflow
+## The workflow (changing existing code)
 
 1. **Understand** — project structure, relevant modules, existing
    architecture and conventions.
@@ -154,6 +182,34 @@ it, before install.sh ever touches anything, and `--local` can't undo that.
 Trivial changes (typos, single-line fixes, something already fully
 specified) skip straight to implementation — the discipline is for changes
 where guessing wrong is costly.
+
+## Building from a brief
+
+For a new application (or a large feature set) defined by a developer
+brief, a design prototype, and the owner's instructions, the
+`project-build` skill runs `workflows/project-build.md`:
+
+1. **Intake** — read the brief in full (page images where text extraction
+   fails), inspect the design export, existing code, git status, and the
+   runtime versions actually installed.
+2. **Requirements** — a checklist (`templates/requirements-checklist.md`)
+   mapping each requirement to a screen, endpoint, entity, or test.
+3. **Reconcile** — owner instruction vs. brief conflicts and every
+   deviation go into a dated decision log; hard constraints (e.g. "no
+   admin panel") stop the conflicting item instead of being worked
+   around.
+4. **Architecture** — the requested stack; framework conveniences checked
+   for security side effects before use.
+5. **Implement** — every in-scope workflow end to end; no mock data, no
+   default accounts, no silently dropped requirements.
+6. **Verify** — tests, builds, a two-user authorization check, an
+   end-to-end run, integrations only against safe targets
+   (`rules/integrations.md`), each supported runtime version.
+7. **Document and report** — README, operator guide, and user brief
+   (`rules/documentation.md`), plus `templates/implementation-report.md`.
+
+Fill in `prompts/project-build.md` as the kickoff prompt, or run
+`/ai-engineering:requirements` first to get just the checklist.
 
 ## Working while you're away
 
@@ -187,6 +243,18 @@ The hook only acts while `.claude/tasks/.away` exists, so it doesn't
 affect normal sessions, and it gives up after 30 forced continues so a
 stuck run can still end.
 
+| Unattended, Claude may | Never, without you |
+|---|---|
+| create task branches from `origin/master` | push, merge, rebase, touch master |
+| commit locally on the task branch | `reset --hard`, `clean`, delete branches |
+| run tests, builds, linters, the app | destructive DB commands, production data |
+| install from the lockfile | deploy, change CI/infra |
+| migrate the local dev database | read or change `.env`/keys, contact real users |
+
+A task that needs your decision gets `Status: Blocked` and the question
+under `## Blocked`; the run moves on to the next task. When you're back,
+read `.claude/tasks/away-report-<date>.md`.
+
 ## Git workflow
 
 Every task gets its own branch, created from `origin/master`, named
@@ -213,6 +281,25 @@ Nothing is ever committed directly to master. See `rules/git-workflow.md`.
   memory-bound clients downstream — flagged for the user, not silently
   assumed away. Validated against the existing service-layer pattern.
   No code written yet — plan is presented for approval.
+```
+
+```
+> /ai-engineering:requirements docs/Developer Brief.pdf, design in
+  "Design and Architecture/", owner: no admin panel, MariaDB, React
+
+  Reads all 14 pages and the design export, writes docs/REQUIREMENTS.md
+  (each requirement → screen/endpoint/entity/test), lists two conflicts
+  between the brief and the owner's instructions with a recommended
+  resolution, and stops before writing code.
+```
+
+```
+> /ai-engineering:away 7 hours, fix the upload retry bug first
+
+  Lists the 4 Pending tasks in order, then works them: branch, implement,
+  test, commit, move to Done. One task needs a business decision — marked
+  Blocked with the question. Ends with .claude/tasks/away-report-….md:
+  3 done (branches, commits, tests run), 1 blocked, nothing pushed.
 ```
 
 ## Repo layout
@@ -263,6 +350,14 @@ tasks/{Pending,Done}/        this repo's own task instances (self-hosted use)
   create symlinks without elevated privileges or dev mode — copying is the
   default that works everywhere; symlinking is opt-in for setups that
   support it.
+- **Enforce with settings, not prompts.** "Don't stop" and "don't push" in
+  a prompt are requests; a permission deny rule and a Stop hook are
+  enforced by Claude Code itself. Away mode uses both, and keeps them
+  opt-in per project in `settings.local.json`.
+- **Task files are the memory.** Progress, decisions, and blockers are
+  written into the task file as work happens, so a long run survives
+  context compaction or a crashed session, and the final report is
+  built from files rather than recollection.
 - **Task state stays in the host project.** `.claude/tasks/{Pending,Done}/`
   is created in whatever project is being worked on, never inside this
   submodule — the submodule is shared, versioned content and shouldn't
