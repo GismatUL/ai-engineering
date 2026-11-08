@@ -29,7 +29,6 @@ Before proposing a change, check (verified vs. inferred vs. unknown):
   project requires and what the PHP team still supports (latest patch of a
   supported branch); upgrade before running anything (see "PHP and
   Composer versions" in @../../rules/laravel.md).
-
 - Which patterns the project already uses (Repository? Services? Actions?
   plain Eloquent in controllers?) — follow what's there over what's ideal.
 - Existing auth setup (Sanctum vs. OAuth2/JWT vs. both) before adding a
