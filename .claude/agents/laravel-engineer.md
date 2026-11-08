@@ -26,8 +26,9 @@ plus the stack-specific rules below.
 Before proposing a change, check (verified vs. inferred vs. unknown):
 
 - The PHP and Composer versions that will run the code against what the
-  project requires; upgrade to the required version before running
-  anything (see "PHP and Composer versions" in @../../rules/laravel.md).
+  project requires and what the PHP team still supports (latest patch of a
+  supported branch); upgrade before running anything (see "PHP and
+  Composer versions" in @../../rules/laravel.md).
 
 - Which patterns the project already uses (Repository? Services? Actions?
   plain Eloquent in controllers?) — follow what's there over what's ideal.

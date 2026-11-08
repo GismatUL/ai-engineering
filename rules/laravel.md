@@ -61,15 +61,29 @@
   and 12 need PHP 8.2, Laravel 13 needs PHP 8.3). The default `php` on
   PATH is often an old install (for example Laragon's PHP 7.4) and is
   not proof of anything.
+- Also check the version against what the PHP team supports
+  (https://www.php.net/supported-versions.php, latest patches at
+  https://www.php.net/releases/active.php). Only use a branch that still
+  gets security fixes, on its latest patch release: patch releases are
+  where vulnerabilities are fixed, so an old patch of a supported branch
+  (e.g. 8.3.16 when 8.3.36 is out) is outdated too. Never use an
+  end-of-life branch for new work.
 - Always run on the recommended version: the one the project's
   Docker/CI/production uses, or, for a new project or package, the latest
-  stable PHP the framework supports.
-- If the active PHP is older than required, upgrade to the required
-  version. Switch to or install it (Laragon: select or add the version;
-  otherwise call that version's binary by its full path, or run inside the
-  project's container). Do not work around it with
+  supported PHP the framework allows, on its latest patch.
+- If the active PHP is older than required, unsupported, or behind on
+  patches, upgrade it. Switch to or install the right version (Laragon:
+  select or add it; otherwise call that version's binary by its full path,
+  or run inside the project's container). Do not work around it with
   `--ignore-platform-reqs`, by lowering `require.php`, or by downgrading
   packages.
+- New projects and packages declare a minimum PHP the PHP team still
+  supports (e.g. `^8.2` while 8.1 is end of life) and test every supported
+  branch in CI. When a branch reaches end of life, raise the minimum in
+  the next minor release and note it in the changelog.
+- If a project's production, Docker or CI PHP is end of life or behind on
+  patches, report it as a security finding with the current supported
+  version, even when it is outside the task.
 - Changing the project's own declared version (`composer.json`
   `require.php`, Dockerfile, CI, production) is a separate change: propose
   it, state the impact, and wait for approval.
