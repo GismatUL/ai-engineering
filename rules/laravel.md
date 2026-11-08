@@ -51,6 +51,38 @@
 - Scope owner data in a query scope (e.g. `Model::ownedBy($user)`) and
   mark Livewire properties holding ids `#[Locked]`.
 
+## PHP and Composer versions
+
+- Before running `php`, `composer`, `artisan` or tests, check which PHP
+  version and which Composer version will actually run them (`php -v`,
+  `composer --version`). Compare them with what the project requires:
+  `require.php` and `config.platform.php` in `composer.json`, the
+  Dockerfile or CI PHP version, and the framework's minimum (Laravel 11
+  and 12 need PHP 8.2, Laravel 13 needs PHP 8.3). The default `php` on
+  PATH is often an old install (for example Laragon's PHP 7.4) and is
+  not proof of anything.
+- Always run on the recommended version: the one the project's
+  Docker/CI/production uses, or, for a new project or package, the latest
+  stable PHP the framework supports.
+- If the active PHP is older than required, upgrade to the required
+  version. Switch to or install it (Laragon: select or add the version;
+  otherwise call that version's binary by its full path, or run inside the
+  project's container). Do not work around it with
+  `--ignore-platform-reqs`, by lowering `require.php`, or by downgrading
+  packages.
+- Changing the project's own declared version (`composer.json`
+  `require.php`, Dockerfile, CI, production) is a separate change: propose
+  it, state the impact, and wait for approval.
+- Keep Composer current (`composer self-update`); CI always uses the
+  latest. Composer 2.9+ refuses to install versions with security
+  advisories, which includes end-of-life Laravel releases. Do not turn the
+  check off globally. If a project is on an end-of-life version, report it
+  and recommend the upgrade. Bypass the check (`COMPOSER_NO_SECURITY_BLOCKING=1`)
+  only for explicitly marked end-of-life CI jobs that must keep testing
+  that version.
+- When reporting verification, state the PHP and Composer versions the
+  tests ran on.
+
 ## Coding
 
 - Follow PSR-12 and the project's existing formatter/linter config (Pint,
