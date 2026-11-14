@@ -36,8 +36,10 @@ it at the start, delete it at the very end, after the report is written.
    `workflows/project-build.md`) without pausing for phase approvals.
 5. Verify: run the relevant tests, builds, and static analysis; fix
    failures and rerun. Report only results that were observed.
-6. Commit on the task branch, update the task file, and move it to
-   `.claude/tasks/Done/` only when verification passed.
+6. Commit on the task branch and update the task file. When verification
+   passed, set `Status: Awaiting Approval` and leave it in `Pending/` — it
+   moves to `Done/` when the user approves it on return (see
+   `rules/task-management.md`).
 7. Continue with the next task.
 
 When the queue is empty, look for unfinished in-scope work recorded in the

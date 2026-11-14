@@ -4,9 +4,28 @@
 
 Tasks should move through:
 
-Pending → In Progress → Done
+Pending → In Progress → Awaiting Approval → Done
 
 A task must not be marked Done until the required verification has been completed.
+
+## Approval Moves a Task to Done
+
+Only the user's explicit approval of the finished work moves a task to
+`Done/`. Passing verification is required but not sufficient:
+
+1. When implementation and verification are complete, set
+   `Status: Awaiting Approval`, record the evidence, and leave the file in
+   `Pending/`. Ask the user to review.
+2. When the user approves the task ("approved", "looks good, close it",
+   etc.), fill in the `Completion` section, set `Status: Done`, tick
+   `Completion approved`, and move the file from `Pending/` to `Done/` in
+   the same step — don't wait to be asked to move it.
+3. If the user requests changes instead, set `Status: In Progress` and keep
+   the file in `Pending/`.
+
+Approval of the plan (`## Approval` → `Approved (plan)`) is a separate gate
+and never moves a task to `Done/`. Never move a task to `Done/` on your own
+judgment, in away mode, or just because verification passed.
 
 A task that can't proceed without the user stays in `Pending/` with
 `Status: Blocked` and the open question under `## Blocked`. Away mode
@@ -46,6 +65,10 @@ Pending tasks belong in:
 Completed tasks belong in:
 
 .claude/tasks/Done/
+
+If the host project already keeps tasks elsewhere (for example
+`tasks/Pending/` and `tasks/Done/` at the project root), use that existing
+location instead — the lifecycle and approval rule are the same.
 
 Use the task template from this submodule:
 

@@ -22,7 +22,11 @@ Template: @../../../tasks/templates/task.md
   filed under `.claude/tasks/Pending/`.
 - A task only moves to `.claude/tasks/Done/` once required verification
   (tests, static analysis, lint, or manual check as applicable) has
-  actually been completed.
+  actually been completed **and the user has explicitly approved the
+  finished work**. After verification, set `Status: Awaiting Approval` and
+  leave it in `Pending/`; when the user approves, move it to `Done/`
+  immediately without being asked. See "Approval Moves a Task to Done" in
+  the rules file.
 - Completion metadata (status, started/completed timestamps, active work
   duration, elapsed duration, verification status, tests executed,
   blockers) must reflect what was actually observed this session. If exact

@@ -14,7 +14,8 @@ Branch: {{BRANCH_NAME}}
 
 ## Approval
 
-- [ ] Approved
+- [ ] Approved (plan)
+- [ ] Completion approved (user approved the finished work — move to Done)
 
 ## Implementation
 
@@ -41,7 +42,7 @@ Required only if this task makes a measurable performance/behavior claim
 
 ## Completion
 
-- Status: Pending | In Progress | Blocked | Done
+- Status: Pending | In Progress | Blocked | Awaiting Approval | Done
 - Started:
 - Completed:
 - Active work:

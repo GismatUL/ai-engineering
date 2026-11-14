@@ -297,9 +297,10 @@ Nothing is ever committed directly to master. See `rules/git-workflow.md`.
 > /ai-engineering:away 7 hours, fix the upload retry bug first
 
   Lists the 4 Pending tasks in order, then works them: branch, implement,
-  test, commit, move to Done. One task needs a business decision — marked
-  Blocked with the question. Ends with .claude/tasks/away-report-….md:
-  3 done (branches, commits, tests run), 1 blocked, nothing pushed.
+  test, commit, mark Awaiting Approval. One task needs a business decision
+  — marked Blocked with the question. Ends with .claude/tasks/away-report-….md:
+  3 awaiting approval (branches, commits, tests run), 1 blocked, nothing
+  pushed. Approving each one moves it to Done.
 ```
 
 ## Repo layout
